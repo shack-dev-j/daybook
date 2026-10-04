@@ -21,3 +21,25 @@ html, body {
 .db .row.is-focused {
   outline-offset: -2px;
 }
+
+/* Prettier scrollbars */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-muted); }
+* { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+
+/* Better focus states for inputs and editables to prevent the stark white outline */
+.db :where(.input, .select, .textarea):focus-visible,
+.db :where(.input, .select, .textarea).is-focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+.db [contenteditable="true"]:focus,
+.db [contenteditable="true"]:focus-visible {
+  outline: none;
+}
+
+.db .drawer__title[contenteditable="true"]:focus {
+  background: var(--field);
