@@ -4,43 +4,58 @@
 
   const API_KEY = "AQ.Ab8RN6IjLUraeO" + "A8WSC6WJNBEvUR" + "KA_qwDbMCu0Zm6s" + "vADhExQ";
 
-  async function callGemini(text) {
+  // Ensure aiHistory exists
+  if (!D.store) D.store = {};
+  
+  D.chatWithAI = async function(text) {
+    if (!D.app.state.aiHistory) D.app.state.aiHistory = [];
+    
+    // Push user message
+    D.app.state.aiHistory.push({ role: 'user', parts: [{ text }] });
+    
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${API_KEY}`;
     
-    const schema = {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          title: { type: "string", description: "A clear title for the task" },
-          type: { type: "string", enum: ["homework", "assignment", "project"] },
-          subject: { type: "string", enum: ["cs", "physics", "maths", "cyber", "other"] },
-          due_date: { type: "string", description: "YYYY-MM-DD format. Leave null if absolutely no date is implied. If user says 'till that day' or similar, infer a reasonable date.", nullable: true },
-          priority: { type: "string", enum: ["low", "med", "high"] }
-        },
-        required: ["title", "type", "subject", "priority"]
-      }
-    };
-
     const todayStr = D.dates.today();
+    
+    // Provide current active tasks context
+    const activeTasks = D.app.state.items.filter(i => D.model.status(i.type, i.status).isOpen).map(i => ({
+      id: i.id,
+      title: i.title,
+      type: i.type,
+      subject: i.subject,
+      due_date: i.due_date,
+      priority: i.priority
+    }));
 
-    const systemInstruction = `You are a highly intelligent task extraction AI integrated into the user's planner app.
+    const systemInstruction = `You are a highly intelligent and friendly AI assistant integrated into the user's Daybook planner app.
 Today's date is ${todayStr}.
-The user will provide uncontexted or vague inputs like 'Hw from CS till that day'. 
-You must intelligently infer:
-- type: usually 'homework' or 'assignment'.
-- subject: 'cs' (Computer Science), 'physics', 'maths', 'cyber' (Cybersecurity), or 'other'.
-- due_date: If they say 'tomorrow', output ${D.dates.add(todayStr, 1)}. If they say 'till that day' or 'next week', infer a date 2-7 days from now. 
-- priority: default to 'med' unless it sounds urgent.
-Be robust. Return an array of these task objects matching the JSON schema.
+You act as a chattable assistant. You can remind the user of things, answer questions about their schedule, and organize tasks.
 
-CRITICAL: Return ONLY raw JSON, with no markdown codeblocks, no formatting, and no conversational text. Start directly with [ and end with ].`;
+Here are the user's current active tasks:
+${JSON.stringify(activeTasks)}
+
+When the user asks you to add, create, or organize tasks, you can do so by filling out the "actions" array.
+When the user asks a question or you want to reply, fill out the "reply" string.
+
+CRITICAL INSTRUCTION: You MUST output ONLY a raw JSON object with this exact structure:
+{
+  "reply": "Your conversational response to the user. E.g. 'I added the physics homework! You also have a Math assignment due tomorrow.'",
+  "actions": [
+    { "type": "add_task", "title": "Homework", "task_type": "homework", "subject": "cs", "due_date": "2026-10-05", "priority": "med" }
+  ]
+}
+
+Valid subjects: 'cs', 'physics', 'maths', 'cyber', 'other'.
+Valid task_types: 'homework', 'assignment', 'project'.
+Valid priorities: 'low', 'med', 'high'.
+
+Return ONLY raw JSON, with no markdown codeblocks, no formatting, and no conversational text outside the JSON. Start directly with { and end with }.`;
 
     const body = {
       system_instruction: { parts: [{ text: systemInstruction }] },
-      contents: [{ parts: [{ text }] }],
+      contents: D.app.state.aiHistory,
       generationConfig: {
-        temperature: 0.1
+        temperature: 0.3
       }
     };
 
@@ -50,38 +65,60 @@ CRITICAL: Return ONLY raw JSON, with no markdown codeblocks, no formatting, and 
       body: JSON.stringify(body)
     });
 
-    if (!res.ok) throw new Error("API Error " + res.status);
+    if (!res.ok) {
+      D.app.state.aiHistory.pop(); // remove user message on error
+      throw new Error("API Error " + res.status);
+    }
+    
     const data = await res.json();
     let resultText = data.candidates[0].content.parts[0].text;
     resultText = resultText.replace(/^```json/im, "").replace(/^```/m, "").replace(/```$/m, "").trim();
-    return JSON.parse(resultText);
-  }
+    
+    let parsed;
+    try {
+      parsed = JSON.parse(resultText);
+    } catch (e) {
+      console.error("Failed to parse JSON:", resultText);
+      throw new Error("AI returned invalid data format.");
+    }
 
+    // Push model response to history
+    // Note: To keep the API happy, we should store the exact text it returned, or just a synthetic reply.
+    // The Gemini API requires alternating user/model roles, but sometimes a model can have consecutive.
+    // We'll store exactly what it gave us so context is preserved.
+    D.app.state.aiHistory.push({ role: 'model', parts: [{ text: JSON.stringify({ reply: parsed.reply }) }] });
+
+    // Execute actions
+    if (parsed.actions && parsed.actions.length > 0) {
+      parsed.actions.forEach(act => {
+        if (act.type === 'add_task') {
+          const item = D.model.blank(act.task_type || 'homework');
+          item.title = act.title;
+          if (act.subject) item.subject = act.subject;
+          if (act.due_date) item.due_date = act.due_date;
+          if (act.priority) item.priority = act.priority;
+          D.app.state.items.push(item);
+        }
+      });
+      D.store.saveItems(D.app.state.items);
+    }
+
+    return parsed;
+  };
+
+  // Keep this for the top bar integration
   D.askGlobalAI = async function(text) {
     if (!text.trim()) return;
     
-    D.ui.toast('✨ AI is thinking...', 'info');
-    
-    try {
-      const tasks = await callGemini(text);
-      if (tasks && tasks.length > 0) {
-        tasks.forEach(t => {
-          const item = D.model.blank(t.type || 'homework');
-          item.title = t.title;
-          if (t.subject) item.subject = t.subject;
-          if (t.due_date) item.due_date = t.due_date;
-          if (t.priority) item.priority = t.priority;
-          D.app.state.items.push(item);
-        });
-        D.store.saveItems(D.app.state.items);
-        if (D.app.render) D.app.render();
-        D.ui.toast(`✨ Added ${tasks.length} task(s)!`, 'success');
-      } else {
-        D.ui.toast('AI found no tasks.', 'info');
-      }
-    } catch (e) {
-      console.error(e);
-      D.ui.toast('AI Error: ' + e.message, 'error');
+    if (D.app && D.app.state && D.app.state.activeScreen !== 'ai') {
+      D.app.state.activeScreen = 'ai';
+      window.history.pushState(null, null, '#ai');
+      D.app.render();
+      await new Promise(r => setTimeout(r, 50));
+    }
+
+    if (D.screens.ai && D.screens.ai.sendMessage) {
+      D.screens.ai.sendMessage(text);
     }
   };
 })(window);
