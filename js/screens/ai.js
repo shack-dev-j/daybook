@@ -64,6 +64,9 @@
             </div>
           `;
         } else {
+          
+          let pars = text.split('\\n').map(p => p.trim() ? '<p style="margin-bottom: 12px;">' + D.ui.esc(p) + '</p>' : '').join('');
+
           html += `
             <div style="display: flex; justify-content: flex-start; width: 100%; gap: 16px;">
               <div style="
@@ -80,7 +83,7 @@
                 font-size: 15px;
                 line-height: 1.6;
               ">
-                ${text.split('\\n').map(p => p.trim() ? \`<p style="margin-bottom: 12px;">\${D.ui.esc(p)}</p>\` : '').join('')}
+                ${pars}
               </div>
             </div>
           `;
@@ -142,7 +145,7 @@
           </div>
         </div>
         
-        ${state.aiHistory.length > 0 ? \`
+        ${state.aiHistory.length > 0 ? `
         <button class="btn" id="ai-clear-chat" style="
           position: absolute; 
           top: 24px; 
@@ -152,7 +155,7 @@
           background: var(--surface-raised);
           border: 1px solid var(--border);
         ">Clear chat</button>
-        \` : ''}
+        ` : ''}
       </div>
     `;
 
@@ -210,12 +213,12 @@
     
     const userDiv = document.createElement('div');
     userDiv.style = "display: flex; justify-content: flex-end; width: 100%;";
-    userDiv.innerHTML = \`<div style="max-width: 70%; padding: 14px 20px; border-radius: 24px; background: var(--surface-raised); color: var(--ink); font-size: 15px; line-height: 1.5; border-bottom-right-radius: 6px;">\${D.ui.esc(text)}</div>\`;
+    userDiv.innerHTML = `<div style="max-width: 70%; padding: 14px 20px; border-radius: 24px; background: var(--surface-raised); color: var(--ink); font-size: 15px; line-height: 1.5; border-bottom-right-radius: 6px;">${D.ui.esc(text)}</div>`;
     containerInner.appendChild(userDiv);
     
     const typingDiv = document.createElement('div');
     typingDiv.style = "display: flex; justify-content: flex-start; width: 100%; gap: 16px;";
-    typingDiv.innerHTML = \`<div style="width: 36px; height: 36px; border-radius: 50%; background: var(--surface-raised); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--ink-muted); flex-shrink: 0; animation: pulse 1.5s infinite;">✨</div><div style="padding-top: 6px; color: var(--ink-muted); font-size: 15px;">Thinking...</div>\`;
+    typingDiv.innerHTML = `<div style="width: 36px; height: 36px; border-radius: 50%; background: var(--surface-raised); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--ink-muted); flex-shrink: 0; animation: pulse 1.5s infinite;">✨</div><div style="padding-top: 6px; color: var(--ink-muted); font-size: 15px;">Thinking...</div>`;
     containerInner.appendChild(typingDiv);
     
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -224,7 +227,7 @@
       await D.chatWithAI(text);
       D.app.render(); 
     } catch (e) {
-      typingDiv.innerHTML = \`<div style="color: var(--overdue); font-size: 15px; padding-top: 6px;">Error: \${D.ui.esc(e.message)}</div>\`;
+      typingDiv.innerHTML = `<div style="color: var(--overdue); font-size: 15px; padding-top: 6px;">Error: ${D.ui.esc(e.message)}</div>`;
       if (input) input.disabled = false;
       if (sendBtn) sendBtn.disabled = false;
     }
