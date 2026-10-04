@@ -1,0 +1,5 @@
+# personal data and editor leftovers
+data/
+*.bak
+.DS_Store
+__pycache__/

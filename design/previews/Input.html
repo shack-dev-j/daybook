@@ -1,0 +1,30 @@
+<!-- @dsCard group="Components" height=316 -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><script src="../../components/bundle.js"></script><meta charset="utf-8"><title>Input</title>
+<style>html,body{margin:0}body{background:var(--bg)}</style></head>
+<body>
+<div class="db" style="padding:16px;background:var(--bg);"><div style="display:flex;flex-direction:column;gap:12px">
+<div style="display:grid;grid-template-columns:repeat(4,200px);gap:12px;align-items:start">
+<label class="field"><span class="field__label">Title</span><input class="input" value="Vectors worksheet"></label>
+<label class="field"><span class="field__label">Empty</span><input class="input" placeholder="Add a title"></label>
+<label class="field"><span class="field__label">Focused</span><input class="input is-focus" value="Functions: Exercise 2A"></label>
+<label class="field"><span class="field__label">Score</span><input class="input is-invalid num" value="45"><span class="field__hint field__hint--error">Score cannot be more than 40.</span></label>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,200px);gap:12px;align-items:start">
+<div class="field"><span class="field__label">Subject</span><div class="select"><i class="dot dot--physics"></i>Physics<svg class="ico ico--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div></div>
+<div class="field"><span class="field__label">Due date</span><div class="select num"><svg class="ico ico--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>Thu 8 Oct 2026<svg class="ico ico--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div></div>
+<div class="field"><span class="field__label">Status</span><div class="seg" role="group" aria-label="Status"><button class="seg__opt" aria-pressed="false">To do</button><button class="seg__opt" aria-pressed="true">In progress</button><button class="seg__opt" aria-pressed="false">Done</button></div></div>
+<div class="field"><span class="field__label">Search</span><div class="input search" style="width:auto"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg><span>Search</span><kbd class="kbd">/</kbd></div></div>
+</div>
+<div class="field"><span class="field__label">Notes</span><div class="textarea" style="min-height:44px">Use the 10-swing timings. Include the uncertainty in L and T.</div></div>
+<div class="field"><span class="field__label">Quick add</span><form class="quickadd" aria-label="Quick add homework">
+  <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg><input class="input" placeholder="Add homework and press Enter, e.g. “Exercise 2B odd”">
+  <div class="select"><i class="dot dot--maths"></i>Mathematics<svg class="ico ico--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+  <div class="select num"><svg class="ico ico--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>Tomorrow<svg class="ico ico--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+  <div class="select"><svg class="ico ico--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/></svg>Med<svg class="ico ico--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+  <button class="btn">Add<kbd class="kbd">↵</kbd></button>
+</form></div>
+</div></div>
+</body>
+</html>

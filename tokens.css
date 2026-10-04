@@ -1,0 +1,118 @@
+/* Daybook tokens. Compiled from design/tokens.json by tools/build_tokens.py.
+   Dark is the default theme; <html data-theme="dark|light"> switches every colour. */
+
+/* ---------- colour and shadow: dark ---------- */
+:root, [data-theme="dark"] {
+  --bg: #0f1114;
+  --surface: #171a1f;
+  --surface-raised: #1e2228;
+  --surface-sunken: #0b0d10;
+  --surface-hover: #22262d;
+  --field: #0f1114;
+  --border: #2a2f37;
+  --border-strong: #6f7785;
+  --ink: #e7e9ec;
+  --ink-muted: #a7adb7;
+  --ink-faint: #8a919c;
+  --on-ink: #0f1114;
+  --focus-ring: var(--ink);
+  --scrim: rgba(0,0,0,0.55);
+  --subject-cs: #3994ff;
+  --subject-physics: #7f49fe;
+  --subject-maths: #17a8a9;
+  --subject-cyber: #ce1ab6;
+  --subject-other: #8b93a1;
+  --overdue: #ff8177;
+  --overdue-soft: #3b1a1a;
+  --today: #f0b545;
+  --today-soft: #37290d;
+  --today-fill: #f0b545;
+  --on-today-fill: #1a1c20;
+  --done: #7dbb93;
+  --done-soft: #1a2c22;
+  --type-homework: #23272e;
+  --type-assignment: #454c58;
+  --type-project: #d3d7dd;
+  --on-type-project: #111317;
+  --shadow-drawer: -12px 0 32px rgba(0,0,0,0.45);
+  --shadow-pop: 0 8px 24px rgba(0,0,0,0.50);
+}
+
+/* ---------- colour and shadow: light ---------- */
+[data-theme="light"] {
+  --bg: #f4f4f1;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-sunken: #eaeae6;
+  --surface-hover: #efefeb;
+  --field: #ffffff;
+  --border: #dcdcd6;
+  --border-strong: #85857f;
+  --ink: #1a1c20;
+  --ink-muted: #555a62;
+  --ink-faint: #63686f;
+  --on-ink: #ffffff;
+  --focus-ring: var(--ink);
+  --scrim: rgba(26,28,32,0.35);
+  --subject-cs: #3376fb;
+  --subject-physics: #5230c1;
+  --subject-maths: #068fa7;
+  --subject-cyber: #911470;
+  --subject-other: #6b7280;
+  --overdue: #c4291f;
+  --overdue-soft: #fdeceb;
+  --today: #8f5a00;
+  --today-soft: #fbf0d4;
+  --today-fill: #f2a922;
+  --on-today-fill: #1a1c20;
+  --done: #33744f;
+  --done-soft: #e4f1e9;
+  --type-homework: #ecece8;
+  --type-assignment: #cfd1cd;
+  --type-project: #32363d;
+  --on-type-project: #ffffff;
+  --shadow-drawer: -12px 0 32px rgba(26,28,32,0.10);
+  --shadow-pop: 0 8px 24px rgba(26,28,32,0.14);
+}
+
+/* ---------- spacing, radius, size, font ---------- */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-full: 999px;
+  --row-h: 32px;
+  --control-h: 28px;
+  --control-h-touch: 44px;
+  --sidebar-w: 200px;
+  --topbar-h: 48px;
+  --drawer-w: 420px;
+  --font-sans: Geist, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* ---------- type styles ---------- */
+.text-display { font-family: var(--font-sans); font-size: 28px; line-height: 32px; font-weight: 600; letter-spacing: -0.01em; }
+.text-title { font-family: var(--font-sans); font-size: 20px; line-height: 28px; font-weight: 600; letter-spacing: -0.01em; }
+.text-subtitle { font-family: var(--font-sans); font-size: 16px; line-height: 24px; font-weight: 600; }
+.text-body-lg { font-family: var(--font-sans); font-size: 15px; line-height: 22px; font-weight: 400; }
+.text-body { font-family: var(--font-sans); font-size: 13px; line-height: 20px; font-weight: 400; }
+.text-strong { font-family: var(--font-sans); font-size: 13px; line-height: 20px; font-weight: 600; }
+.text-small { font-family: var(--font-sans); font-size: 12px; line-height: 16px; font-weight: 400; }
+.text-label { font-family: var(--font-sans); font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: 0.04em; }
+
+/* ---------- font files ---------- */
+@font-face {
+  font-family: "Geist";
+  src: url("fonts/Geist-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}

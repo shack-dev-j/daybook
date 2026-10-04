@@ -1,0 +1,19 @@
+--- js/screens/homework.js
++++ js/screens/homework.js
+@@ -140,8 +140,16 @@
+             const stat = D.model.status('homework', item.status);
+             const pr = D.model.priority(item.priority);
+ 
++            let checklistHtml = '';
++            const p = D.model.progress(item);
++            if (p.total > 0) {
++              checklistHtml = `<span class="muted" style="font-size:12px;display:inline-flex;gap:4px;align-items:center">${D.icon('list-todo', 'ico--sm')}<span class="num">${p.done}/${p.total}</span></span>`;
++            }
++
+             html += `
+               <li class="${rowCls}" data-key="${item.id}" data-act="open-item" tabindex="0">
+                 ${D.ui.checkbox(D.model.isDone(item))}
+-                <span class="row__title">${D.ui.esc(item.title)}</span>
++                <span class="row__title">${D.ui.esc(item.title)}</span>${checklistHtml}
+                 <span class="c-due">${dueHtml}</span>
+                 <span class="c-status">

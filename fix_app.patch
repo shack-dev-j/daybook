@@ -1,0 +1,12 @@
+--- js/app.js
++++ js/app.js
+@@ -16,7 +16,8 @@
+     { id: 'assignments', name: 'Assignments', icon: 'file-text' },
+     { id: 'projects', name: 'Projects', icon: 'square-kanban' },
+     { id: 'calendar', name: 'Calendar', icon: 'calendar-days' },
+-    { id: 'stats', name: 'Stats', icon: 'chart-column' }
++    { id: 'stats', name: 'Stats', icon: 'chart-column' },
++    { id: 'ai', name: 'AI Assistant', icon: 'sparkles' }
+   ];
+ 
+   function getScreenCounts()
