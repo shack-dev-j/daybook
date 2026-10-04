@@ -71,9 +71,7 @@ ${text}
           <p style="margin-bottom: 12px; color: var(--ink-faint);">
             Enter your Gemini API Key to enable the AI assistant. This key is stored securely in your browser's local storage.
           </p>
-          <div class="input">
-            <input type="password" id="ai-key-input" placeholder="AIzaSy...">
-          </div>
+          <input type="password" class="input" id="ai-key-input" placeholder="AIzaSy...">
           <button class="btn btn--primary" id="ai-key-save" style="margin-top: 12px;">Save Key</button>
       `;
     } else {
@@ -81,9 +79,7 @@ ${text}
           <p style="margin-bottom: 12px; color: var(--ink-faint);">
             Tell me about your new homework, projects, or assignments, and I'll organize them for you.
           </p>
-          <div class="input">
-            <textarea id="ai-task-input" rows="4" placeholder="e.g., I have a physics assignment due next Friday and I need to do the math worksheet by tomorrow..."></textarea>
-          </div>
+          <textarea class="textarea" id="ai-task-input" rows="4" placeholder="e.g., I have a physics assignment due next Friday and I need to do the math worksheet by tomorrow..."></textarea>
           <div style="display: flex; gap: 8px; margin-top: 12px;">
             <button class="btn btn--primary" id="ai-task-submit">${D.icon('wand-2')}Organize Tasks</button>
             <button class="btn" id="ai-key-clear">Clear API Key</button>

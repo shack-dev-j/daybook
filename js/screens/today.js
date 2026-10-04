@@ -111,7 +111,7 @@
 
       if (allClear) {
         const tmrwCount = byDay[D.dates.add(today, 1)].length;
-        panelsHtml = D.ui.emptyState('All clear for today', \`Tomorrow has \${tmrwCount} \${tmrwCount === 1 ? 'item' : 'items'} due.\`, 'sun');
+        panelsHtml = D.ui.emptyState('All clear for today', `Tomorrow has \${tmrwCount} \${tmrwCount === 1 ? 'item' : 'items'} due.`, 'sun');
       } else {
         let oHtml = '';
         if (overdue.length > 0) {

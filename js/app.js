@@ -102,7 +102,7 @@
         <span class="muted num">${D.ui.esc(dateStr)}</span>
         <div class="top__actions">
           <div class="input search" role="search">
-            ${D.icon('search')}<input type="text" placeholder="Search" value="${D.ui.esc(state.searchQuery)}"><kbd class="kbd">/</kbd>
+            ${D.icon('search')}<input type="text" placeholder="Search" value="${D.ui.esc(state.searchQuery)}" style="border:none;background:transparent;outline:none;flex:1;min-width:0;color:inherit;"><kbd class="kbd">/</kbd>
           </div>
           <button class="btn btn--primary" data-act="new-item">
             ${D.icon('plus')}New item<kbd class="kbd">N</kbd>
