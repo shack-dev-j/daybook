@@ -129,10 +129,10 @@
         grouped[i.subject].push(i);
       });
 
-      D.config.SUBJECTS.forEach(s => {
-        if (!grouped[s.id]) return;
-        const gItems = grouped[s.id];
-        const isCol = localState.collapsedGroups[s.id];
+      Object.keys(grouped).forEach(subjId => {
+        const s = D.model.subject(subjId);
+        const gItems = grouped[subjId];
+        const isCol = localState.collapsedGroups[subjId];
         html += `
           <div class="group__head" data-act="hw-toggle-group" data-id="${s.id}" style="cursor:pointer">
             ${D.icon(isCol ? 'chevron-right' : 'chevron-down', 'ico--sm')}

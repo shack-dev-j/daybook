@@ -99,7 +99,7 @@
     if (p.total > 0) {
       progressHtml = `
         <span class="progress" role="progressbar" aria-valuenow="${p.done}" aria-valuemin="0" aria-valuemax="${p.total}">
-          <span class="progress__fill fill--${isDone ? 'done' : subj.id}" style="width:${p.pct}%"></span>
+          <span class="progress__fill fill--${isDone ? 'done' : D.ui.subjectClass(subj.id)}" style="width:${p.pct}%"></span>
         </span>
         <span class="muted num" style="font-size:12px">${p.done}/${p.total}</span>
       `;

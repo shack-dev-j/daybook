@@ -93,7 +93,7 @@
         ${isProject ? 'Milestones' : 'Checklist'}
         <span class="num" style="font-weight:400">${p.done} of ${p.total}</span>
         <span class="progress" role="progressbar" aria-valuenow="${p.done}" aria-valuemin="0" aria-valuemax="${p.total}">
-          <span class="progress__fill fill--${subjId}" style="width:${p.pct}%"></span>
+          <span class="progress__fill fill--${D.ui.subjectClass(subjId)}" style="width:${p.pct}%"></span>
         </span>
       </div>
       <ul>

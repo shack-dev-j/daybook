@@ -20,7 +20,12 @@
 
   /* ---------- lookups ---------- */
 
-  const subject = id => byId(C.SUBJECTS, id) || byId(C.SUBJECTS, 'other');
+  const subject = id => {
+    const found = byId(C.SUBJECTS, id);
+    if (found) return found;
+    const title = typeof id === 'string' && id ? id.charAt(0).toUpperCase() + id.slice(1) : 'Other';
+    return { id: id || 'other', name: title, short: title };
+  };
   const type = id => byId(C.TYPES, id) || C.TYPES[0];
   const priority = id => byId(C.PRIORITIES, id) || byId(C.PRIORITIES, 'med');
   const statusList = typeId => (typeId === 'project' ? C.PROJECT_STATUSES : C.STATUSES);

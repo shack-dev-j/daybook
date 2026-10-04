@@ -45,7 +45,7 @@ CRITICAL INSTRUCTION: You MUST output ONLY a raw JSON object with this exact str
   ]
 }
 
-Valid subjects: 'cs', 'physics', 'maths', 'cyber', 'other'.
+Valid subjects: 'cs', 'physics', 'maths', 'cyber', 'other'. If the user mentions a different subject (e.g. English, History, Art), output that exactly as a lowercase string (e.g. 'english', 'history').
 Valid task_types: 'homework', 'assignment', 'project'.
 Valid priorities: 'low', 'med', 'high'.
 

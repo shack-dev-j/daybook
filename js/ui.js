@@ -9,7 +9,8 @@
   }
 
   function subjectDot(id) {
-    return `<i class="dot dot--${id}"></i>`;
+    const known = D.config.SUBJECTS.some(s => s.id === id) ? id : 'other';
+    return `<i class="dot dot--${known}"></i>`;
   }
 
   function badge(text, variantClass) {
@@ -55,7 +56,7 @@
     return `
       <span style="display:inline-flex;align-items:center;gap:6px;width:92px">
         <span class="progress" role="progressbar" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="${total}">
-          <span class="progress__fill fill--${subjectId}" style="width:${pct}%"></span>
+          <span class="progress__fill fill--${subjectClass(subjectId)}" style="width:${pct}%"></span>
         </span>
         <span class="num">${done}/${total}</span>
       </span>
@@ -123,6 +124,6 @@
   }
 
   D.ui = {
-    esc, subjectDot, badge, tag, emptyState, emptyStateInline, checkbox, progress, renderRow, toast
+    esc, subjectClass, subjectDot, badge, tag, emptyState, emptyStateInline, checkbox, progress, renderRow, toast
   };
 })(window);

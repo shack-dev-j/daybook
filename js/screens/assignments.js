@@ -28,7 +28,7 @@
 
     const p = D.model.progress(item);
     const progHtml = p.total > 0
-      ? `<span class="progress" role="progressbar" aria-valuenow="${p.done}" aria-valuemin="0" aria-valuemax="${p.total}"><span class="progress__fill fill--${subj.id}" style="width:${p.pct}%"></span></span><span class="muted num" style="font-size:12px">${p.done}/${p.total} steps</span>`
+      ? `<span class="progress" role="progressbar" aria-valuenow="${p.done}" aria-valuemin="0" aria-valuemax="${p.total}"><span class="progress__fill fill--${D.ui.subjectClass(subj.id)}" style="width:${p.pct}%"></span></span><span class="muted num" style="font-size:12px">${p.done}/${p.total} steps</span>`
       : '';
 
     const notesHtml = item.notes ? `<p class="card__note">${D.ui.esc(item.notes)}</p>` : '';
