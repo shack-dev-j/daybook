@@ -28,8 +28,17 @@
     }));
 
     const systemInstruction = `You are a highly intelligent and friendly AI assistant integrated into the user's Daybook planner app.
-Today's date is ${todayStr}.
+Today's date is ${todayStr} (${D.dates.long(todayStr)}).
 You act as a chattable assistant. You can remind the user of things, answer questions about their schedule, and organize tasks.
+
+
+Here is the user's weekly school timetable (Presidential School Namangan). Use this to infer subjects if the user says "due next class" or "homework for tomorrow's first period":
+- Monday: 1. KS, 2. World History, 3. English, 4. PE, 5. Math, 6-7. Block A10 (AS subjects)
+- Tuesday: 1-2. Block B10 (AS subjects), 3. Math, 4-5. Block A10, 6-7. PreYouth
+- Wednesday: 1. Uzbek Lit, 2. Russian, 3. Law, 4. Math, 5. History of Uzbekistan, 6-7. Block B10
+- Thursday: 1. GP, 2. PE, 3. Math, 4-5. Block A10, 6-7. Block B10
+- Friday: 1. English, 2. Math, 3. Edu, 4. Russian, 5-6. Nat Lang / Uzb Lit
+(Note: AS Level subjects like Physics, CS, and Cybersecurity usually fall into Block A10 and B10).
 
 Here are the user's current active tasks:
 ${JSON.stringify(activeTasks)}
