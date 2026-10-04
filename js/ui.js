@@ -8,9 +8,12 @@
     return String(str).replace(/[&<>"']/g, m => escMap[m]);
   }
 
+  function subjectClass(id) {
+    return D.config.SUBJECTS.some(s => s.id === id) ? id : 'other';
+  }
+
   function subjectDot(id) {
-    const known = D.config.SUBJECTS.some(s => s.id === id) ? id : 'other';
-    return `<i class="dot dot--${known}"></i>`;
+    return `<i class="dot dot--${subjectClass(id)}"></i>`;
   }
 
   function badge(text, variantClass) {
