@@ -10,27 +10,28 @@
     if (!state.aiHistory) state.aiHistory = [];
     
     let html = `
-      <div class="page" style="display: flex; flex-direction: column; height: 100vh; max-width: 800px; margin: 0 auto; background: var(--surface); box-shadow: 0 0 20px rgba(0,0,0,0.1);">
+      <div class="page" style="display: flex; flex-direction: column; height: 100%; position: relative;">
         
-        <div style="padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: var(--surface-sunken);">
-          <div style="font-size: 24px;">✨</div>
-          <div>
-            <h2 style="margin: 0; font-size: 16px; font-weight: 600;">Gemini Assistant</h2>
-            <div style="font-size: 12px; color: var(--ink-muted);">Always here to help organize your life</div>
-          </div>
-          <div class="grow"></div>
-          <button class="btn" id="ai-clear-chat" style="padding: 4px 8px; font-size: 12px;">Clear Chat</button>
-        </div>
-
-        <div id="ai-chat-messages" style="flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+        <div id="ai-chat-messages" style="
+          flex: 1; 
+          overflow-y: auto; 
+          padding: 32px 24px 120px 24px; 
+          display: flex; 
+          flex-direction: column; 
+          gap: 32px;
+          scroll-behavior: smooth;
+        ">
+          <div style="max-width: 800px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 32px;">
     `;
 
     if (state.aiHistory.length === 0) {
       html += `
-        <div style="text-align: center; margin: auto; color: var(--ink-faint);">
-          <div style="font-size: 48px; margin-bottom: 16px;">👋</div>
-          <p>Hi! I'm your Daybook Assistant.</p>
-          <p style="font-size: 13px;">You can ask me what's due tomorrow, tell me to add tasks, or just say hello!</p>
+        <div style="text-align: center; margin: 60px auto 0 auto; color: var(--ink);">
+          <div style="font-size: 48px; margin-bottom: 24px; animation: slideInUp 0.5s ease-out;">✨</div>
+          <h2 style="font-size: 28px; font-weight: 500; margin-bottom: 12px;">Hello, ${D.ui.esc("Shohjahon") || "there"}</h2>
+          <p style="font-size: 16px; color: var(--ink-muted); max-width: 500px; margin: 0 auto; line-height: 1.6;">
+            I'm your personal Daybook AI. I can manage your tasks, analyze your workload, or tell you what's due tomorrow.
+          </p>
         </div>
       `;
     } else {
@@ -38,7 +39,6 @@
         const isUser = msg.role === 'user';
         let text = msg.parts[0].text;
         
-        // If it's a model message, it's stored as JSON so parse it to show the reply
         if (!isUser) {
           try {
             const parsed = JSON.parse(text);
@@ -46,54 +46,113 @@
           } catch(e) {}
         }
         
-        html += `
-          <div style="display: flex; flex-direction: column; align-items: ${isUser ? 'flex-end' : 'flex-start'};">
-            <div style="
-              max-width: 80%;
-              padding: 12px 16px;
-              border-radius: 16px;
-              ${isUser 
-                ? 'background: var(--subject-physics); color: white; border-bottom-right-radius: 4px;' 
-                : 'background: var(--surface-raised); border: 1px solid var(--border); border-bottom-left-radius: 4px;'
-              }
-            ">
-              ${D.ui.esc(text).replace(/\\n/g, '<br>')}
+        if (isUser) {
+          html += `
+            <div style="display: flex; justify-content: flex-end; width: 100%;">
+              <div style="
+                max-width: 70%;
+                padding: 14px 20px;
+                border-radius: 24px;
+                background: var(--surface-raised);
+                color: var(--ink);
+                font-size: 15px;
+                line-height: 1.5;
+                border-bottom-right-radius: 6px;
+              ">
+                ${D.ui.esc(text).replace(/\\n/g, '<br>')}
+              </div>
             </div>
-          </div>
-        `;
+          `;
+        } else {
+          html += `
+            <div style="display: flex; justify-content: flex-start; width: 100%; gap: 16px;">
+              <div style="
+                width: 36px; height: 36px; 
+                border-radius: 50%; 
+                background: var(--subject-physics); 
+                display: flex; align-items: center; justify-content: center; 
+                font-size: 16px; color: white; flex-shrink: 0;
+              ">✨</div>
+              <div style="
+                max-width: 85%;
+                padding-top: 6px;
+                color: var(--ink);
+                font-size: 15px;
+                line-height: 1.6;
+              ">
+                ${text.split('\\n').map(p => p.trim() ? \`<p style="margin-bottom: 12px;">\${D.ui.esc(p)}</p>\` : '').join('')}
+              </div>
+            </div>
+          `;
+        }
       });
     }
 
     html += `
+          </div>
         </div>
         
-        <div style="padding: 16px 24px; border-top: 1px solid var(--border); background: var(--surface-sunken);">
-          <div style="display: flex; gap: 12px;">
-            <input type="text" id="ai-chat-input" placeholder="Type a message..." style="
+        <div style="
+          position: absolute; 
+          bottom: 0; 
+          left: 0; 
+          right: 0; 
+          padding: 24px; 
+          background: linear-gradient(to top, var(--surface) 60%, transparent);
+          display: flex;
+          justify-content: center;
+          pointer-events: none;
+        ">
+          <div style="
+            width: 100%;
+            max-width: 800px;
+            display: flex; 
+            gap: 12px;
+            background: var(--surface-raised);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 8px 8px 8px 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            align-items: center;
+            pointer-events: auto;
+          ">
+            <input type="text" id="ai-chat-input" placeholder="Ask Gemini..." style="
               flex: 1;
-              padding: 12px 16px;
-              border-radius: 24px;
-              border: 1px solid var(--border);
-              background: var(--surface);
+              border: none;
+              background: transparent;
               color: var(--ink);
+              font-size: 15px;
               outline: none;
             ">
             <button id="ai-chat-send" style="
-              background: var(--subject-physics);
-              color: white;
+              background: var(--ink);
+              color: var(--surface);
               border: none;
               border-radius: 50%;
-              width: 44px;
-              height: 44px;
+              width: 40px;
+              height: 40px;
               display: flex;
               align-items: center;
               justify-content: center;
               cursor: pointer;
+              transition: transform 0.2s, opacity 0.2s;
             ">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
           </div>
         </div>
+        
+        ${state.aiHistory.length > 0 ? \`
+        <button class="btn" id="ai-clear-chat" style="
+          position: absolute; 
+          top: 24px; 
+          right: 24px; 
+          padding: 6px 12px; 
+          font-size: 12px;
+          background: var(--surface-raised);
+          border: 1px solid var(--border);
+        ">Clear chat</button>
+        \` : ''}
       </div>
     `;
 
@@ -106,10 +165,12 @@
     const sendBtn = container.querySelector('#ai-chat-send');
     const clearBtn = container.querySelector('#ai-clear-chat');
 
-    clearBtn.addEventListener('click', () => {
-      state.aiHistory = [];
-      D.app.render();
-    });
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        state.aiHistory = [];
+        D.app.render();
+      });
+    }
 
     const sendMsg = () => {
       const text = input.value.trim();
@@ -125,19 +186,14 @@
       }
     });
 
-    // Auto-focus input if we just rendered the screen
     setTimeout(() => input.focus(), 50);
   }
 
   async function sendMessage(text) {
     if (!containerRef) return;
     
-    // Optimistic UI update
     const state = D.app.state;
     if (!state.aiHistory) state.aiHistory = [];
-    
-    // We manually push to UI, but ai_global will also push to state. Let's let ai_global do it.
-    // Wait, ai_global pushes to state. Let's just pass it to ai_global, then re-render!
     
     const input = containerRef.querySelector('#ai-chat-input');
     const messagesDiv = containerRef.querySelector('#ai-chat-messages');
@@ -149,24 +205,26 @@
     }
     if (sendBtn) sendBtn.disabled = true;
 
-    // Temporarily append the user message visually
+    // We manually append to DOM so it feels instant
+    const containerInner = messagesDiv.querySelector('div');
+    
     const userDiv = document.createElement('div');
-    userDiv.style = "display: flex; flex-direction: column; align-items: flex-end;";
-    userDiv.innerHTML = `<div style="max-width: 80%; padding: 12px 16px; border-radius: 16px; background: var(--subject-physics); color: white; border-bottom-right-radius: 4px;">${D.ui.esc(text)}</div>`;
-    messagesDiv.appendChild(userDiv);
+    userDiv.style = "display: flex; justify-content: flex-end; width: 100%;";
+    userDiv.innerHTML = \`<div style="max-width: 70%; padding: 14px 20px; border-radius: 24px; background: var(--surface-raised); color: var(--ink); font-size: 15px; line-height: 1.5; border-bottom-right-radius: 6px;">\${D.ui.esc(text)}</div>\`;
+    containerInner.appendChild(userDiv);
     
     const typingDiv = document.createElement('div');
-    typingDiv.style = "display: flex; flex-direction: column; align-items: flex-start;";
-    typingDiv.innerHTML = `<div style="padding: 12px 16px; border-radius: 16px; background: var(--surface-raised); border: 1px solid var(--border); border-bottom-left-radius: 4px; color: var(--ink-muted);">Thinking...</div>`;
-    messagesDiv.appendChild(typingDiv);
+    typingDiv.style = "display: flex; justify-content: flex-start; width: 100%; gap: 16px;";
+    typingDiv.innerHTML = \`<div style="width: 36px; height: 36px; border-radius: 50%; background: var(--surface-raised); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--ink-muted); flex-shrink: 0; animation: pulse 1.5s infinite;">✨</div><div style="padding-top: 6px; color: var(--ink-muted); font-size: 15px;">Thinking...</div>\`;
+    containerInner.appendChild(typingDiv);
     
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
     try {
       await D.chatWithAI(text);
-      D.app.render(); // full re-render captures the state updates
+      D.app.render(); 
     } catch (e) {
-      typingDiv.innerHTML = `<div style="padding: 12px 16px; border-radius: 16px; background: var(--overdue-fill); color: var(--overdue); border: 1px solid var(--overdue); border-bottom-left-radius: 4px;">Error: ${D.ui.esc(e.message)}</div>`;
+      typingDiv.innerHTML = \`<div style="color: var(--overdue); font-size: 15px; padding-top: 6px;">Error: \${D.ui.esc(e.message)}</div>\`;
       if (input) input.disabled = false;
       if (sendBtn) sendBtn.disabled = false;
     }
