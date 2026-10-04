@@ -174,6 +174,7 @@
       
       drawerEl = document.createElement('aside');
       drawerEl.className = 'drawer';
+      drawerEl.style.animation = 'slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
       drawerEl.setAttribute('role', 'dialog');
       drawerEl.setAttribute('aria-label', 'Task details');
       

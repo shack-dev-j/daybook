@@ -158,8 +158,15 @@
     if (!SCREENS.find(s => s.id === hash)) {
       hash = 'today';
     }
-    state.activeScreen = hash;
-    render();
+    if (state.activeScreen !== hash && document.startViewTransition) {
+      state.activeScreen = hash;
+      document.startViewTransition(() => {
+        render();
+      });
+    } else {
+      state.activeScreen = hash;
+      render();
+    }
   }
 
   function saveAndRender() {
@@ -264,6 +271,12 @@
     
     // If inside a text input, skip global shortcuts except Esc
     if (targetTag === 'input' || targetTag === 'textarea' || targetTag === 'select') {
+      if (e.key === 'Enter' && e.target.id === 'global-ai-input') {
+        e.preventDefault();
+        D.askGlobalAI(e.target.value);
+        e.target.value = '';
+        return;
+      }
       if (e.key === 'Escape') {
         if (e.target.matches('.search input')) {
           e.target.value = '';

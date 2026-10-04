@@ -25,6 +25,30 @@ html, body {
   outline-offset: -2px;
 }
 
+/* --- Animations and Awesome Design --- */
+
+/* Smooth hover transitions for interactive elements */
+.db .btn, .db .row, .db .card, .db .menu__item, .db .tag, .db .seg__opt, .db .input, .db .textarea {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Cards lift up on hover */
+.db .card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Rows highlight smoothly */
+.db .row:hover {
+  background: var(--surface-hover);
+}
+
+/* Drawer slide-in animation */
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
 /* Prettier scrollbars */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
