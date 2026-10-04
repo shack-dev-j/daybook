@@ -32,14 +32,14 @@ You must intelligently infer:
 - subject: 'cs' (Computer Science), 'physics', 'maths', 'cyber' (Cybersecurity), or 'other'.
 - due_date: If they say 'tomorrow', output ${D.dates.add(todayStr, 1)}. If they say 'till that day' or 'next week', infer a date 2-7 days from now. 
 - priority: default to 'med' unless it sounds urgent.
-Be robust. Return an array of these task objects matching the JSON schema.`;
+Be robust. Return an array of these task objects matching the JSON schema.
+
+CRITICAL: Return ONLY raw JSON, with no markdown codeblocks, no formatting, and no conversational text. Start directly with [ and end with ].`;
 
     const body = {
       system_instruction: { parts: [{ text: systemInstruction }] },
       contents: [{ parts: [{ text }] }],
       generationConfig: {
-        response_mime_type: "application/json",
-        response_schema: schema,
         temperature: 0.1
       }
     };
@@ -52,7 +52,8 @@ Be robust. Return an array of these task objects matching the JSON schema.`;
 
     if (!res.ok) throw new Error("API Error " + res.status);
     const data = await res.json();
-    const resultText = data.candidates[0].content.parts[0].text;
+    let resultText = data.candidates[0].content.parts[0].text;
+    resultText = resultText.replace(/^```json/im, "").replace(/^```/m, "").replace(/```$/m, "").trim();
     return JSON.parse(resultText);
   }
 
