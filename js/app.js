@@ -17,7 +17,8 @@
     { id: 'projects', name: 'Projects', icon: 'square-kanban' },
     { id: 'calendar', name: 'Calendar', icon: 'calendar-days' },
     { id: 'stats', name: 'Stats', icon: 'chart-column' },
-    { id: 'ai', name: 'AI Assistant', icon: 'sparkles' }
+    { id: 'ai', name: 'AI Assistant', icon: 'sparkles' },
+    { id: 'prefs', name: 'Preferences', icon: 'sliders-horizontal' }
   ];
 
   function getScreenCounts() {
@@ -302,6 +303,7 @@
   function boot() {
     state.prefs = D.store.loadPrefs();
     D.setTheme(state.prefs.theme);
+    document.body.style.zoom = state.prefs.zoom || 1;
     state.items = D.store.loadItems();
     
     window.addEventListener('hashchange', route);
