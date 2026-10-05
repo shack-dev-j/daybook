@@ -87,3 +87,66 @@ html, body {
 .today__main > .empty {
   margin: auto;
 }
+
+/* --- SATashkent Inspired Theme Overrides --- */
+
+/* Thicker topbar with bold presentation */
+.db .topbar {
+  border-bottom: 2px solid var(--border) !important;
+  padding: 0 16px !important;
+}
+
+/* Primary Button Styling */
+.db .btn--primary {
+  background-color: #aa233b !important;
+  border-color: #aa233b !important;
+  color: #ffffff !important;
+  border-radius: var(--radius-full) !important;
+  padding: 0 20px !important;
+  font-weight: 600 !important;
+}
+.db .btn--primary:hover {
+  background-color: #8a1c30 !important;
+  border-color: #8a1c30 !important;
+}
+
+/* Secondary/Action Buttons */
+.db .btn {
+  border-radius: var(--radius-full) !important;
+}
+
+/* Make tags feel more pill-like */
+.db .tag {
+  border-radius: var(--radius-full) !important;
+  padding: 0 10px !important;
+}
+
+/* Soften panels and cards with 2px borders, mirroring the design */
+.db .panel, .db .card, .db .col {
+  border: 2px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: none !important;
+}
+
+/* Sidebar selected item should have a red accent in light theme */
+html[data-theme="light"] .db .nav__item.is-active {
+  color: #aa233b !important;
+  background-color: #fce7ea !important;
+}
+html[data-theme="light"] .db .nav__item.is-active .ico {
+  color: #aa233b !important;
+}
+
+/* Give inputs stronger borders on focus */
+.db .input:focus, .db .select:focus, .db .area:focus {
+  border-color: #aa233b !important;
+  box-shadow: 0 0 0 3px rgba(170, 35, 59, 0.15) !important;
+  outline: none !important;
+}
+
+/* Make the title display font look bigger and bolder */
+.db .text-title {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+}
