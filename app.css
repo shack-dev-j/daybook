@@ -188,3 +188,11 @@ html[data-theme="dark"] .db .nav__item.is-active .ico {
 .fill--pe { color: var(--on-subject-pe, #fff); background: var(--subject-pe); border-color: var(--subject-pe); }
 .ch-pe { accent-color: var(--subject-pe); }
 .db .checkbox > .ch-pe:checked + .chk__box { background: var(--subject-pe); border-color: var(--subject-pe); }
+
+/* Fix drawer z-index overlapping issues */
+.scrim {
+  z-index: 100 !important;
+}
+.drawer {
+  z-index: 101 !important;
+}
