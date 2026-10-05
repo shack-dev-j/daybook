@@ -120,7 +120,7 @@
   function toast(msg, undoAct) {
     // Basic toast, append to body
     let t = document.createElement('div');
-    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface-raised);padding:8px 16px;border-radius:var(--radius-md);box-shadow:var(--shadow-pop);border:1px solid var(--border);display:flex;align-items:center;gap:12px;z-index:999;';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface-raised);padding:8px 16px;border-radius:var(--radius-md);box-shadow:none;border:2px solid var(--border);display:flex;align-items:center;gap:12px;z-index:999;';
     t.innerHTML = `<span>${esc(msg)}</span>${undoAct ? `<button class="btn" data-act="${undoAct}">Undo</button>` : ''}`;
     document.body.appendChild(t);
     setTimeout(() => t.remove(), 5000);

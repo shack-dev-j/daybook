@@ -120,7 +120,7 @@ html, body {
   border-color: #00f7ff !important;
   outline: none !important;
 }
-.db *:focus-visible {
+.db *:focus-visible, .db .row:focus, .db .row--compact:focus, .db .row--tall:focus {
   outline: 2px solid #00f7ff !important;
   outline-offset: 2px !important;
 }

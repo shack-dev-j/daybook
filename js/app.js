@@ -301,6 +301,37 @@
 
   document.addEventListener('keydown', e => {
     if (e.ctrlKey || e.altKey || e.metaKey) return;
+    
+    // Roving tabindex for lists
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      const active = document.activeElement;
+      const allRows = Array.from(document.querySelectorAll('[tabindex="0"]')).filter(el => {
+        // Only target rows in the main page content area
+        return el.matches('.row, .row--compact, .row--tall, .table .row');
+      });
+      if (allRows.length === 0) return;
+      
+      const idx = allRows.indexOf(active);
+      let nextIdx = 0;
+      if (idx > -1) {
+        nextIdx = e.key === 'ArrowDown' ? idx + 1 : idx - 1;
+        if (nextIdx >= allRows.length) nextIdx = 0;
+        if (nextIdx < 0) nextIdx = allRows.length - 1;
+      }
+      e.preventDefault();
+      allRows[nextIdx].focus();
+      return;
+    }
+    
+    if ((e.key === ' ' || e.key === 'Enter') && document.activeElement.matches('.row, .row--compact, .row--tall, .table .row')) {
+      e.preventDefault();
+      if (e.key === ' ') {
+        handleAction('toggle-done', null, { target: document.activeElement, stopPropagation: () => {} });
+      } else if (e.key === 'Enter') {
+        handleAction('open-item', null, { target: document.activeElement });
+      }
+      return;
+    }
     const targetTag = e.target.tagName.toLowerCase();
     
     // If inside a text input, skip global shortcuts except Esc
