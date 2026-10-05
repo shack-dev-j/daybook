@@ -89,101 +89,59 @@ html, body {
 }
 
 
-/* --- SATashkent App Architecture Overrides --- */
 
-/* 1. Flat Design & 2px Borders Everywhere */
+/* --- SATashkent Inspired Clean Architecture --- */
+
+/* 1. Primary Action Buttons (Cyan) */
+.db .btn--primary {
+  background-color: #00f7ff !important;
+  border-color: #00f7ff !important;
+  color: #000000 !important;
+}
+.db .btn--primary:hover, .db .btn--primary.is-hover {
+  background-color: #00d6de !important;
+  border-color: #00d6de !important;
+}
+
+/* 2. Structural 2px Borders */
+/* We apply 2px borders only to main structural boundaries to match the mockup */
 .db .side {
   border-right: 2px solid var(--border) !important;
 }
 .db .topbar {
   border-bottom: 2px solid var(--border) !important;
 }
-.db .panel, .db .card, .db .col, .db .today__main > .summary {
+.db .panel, .db .card, .db .col {
   border: 2px solid var(--border) !important;
-  box-shadow: none !important;
-  border-radius: 16px !important;
-}
-.db .drawer {
-  border-left: 2px solid var(--border) !important;
-  box-shadow: none !important;
 }
 
-/* 2. Inputs, Selects, and Buttons */
-.db .input, .db .select, .db .area {
-  border: 2px solid var(--border) !important;
-  border-radius: 12px !important;
-  box-shadow: none !important;
+/* 3. Interactive element borders */
+.db .input, .db .select, .db .area, .db .btn {
+  border: 2px solid var(--border);
 }
-.db .btn {
-  border: 2px solid var(--border) !important;
-  border-radius: 12px !important;
-  box-shadow: none !important;
-  font-weight: 600 !important;
-}
-
-/* 3. Primary Accent (#00f7ff) */
-.db .btn--primary {
-  background-color: #00f7ff !important;
-  border-color: #00f7ff !important;
-  color: #000000 !important;
-}
-.db .btn--primary:hover {
-  background-color: #00d6de !important;
-  border-color: #00d6de !important;
-}
-
-/* Sidebar selected item accent */
-html[data-theme="light"] .db .nav__item.is-active {
-  color: #00a3a8 !important;
-  background-color: #e5feff !important;
-  font-weight: 700 !important;
-}
-html[data-theme="light"] .db .nav__item.is-active .ico {
-  color: #00a3a8 !important;
-}
-html[data-theme="dark"] .db .nav__item.is-active {
-  color: #00f7ff !important;
-  background-color: #003336 !important;
-  font-weight: 700 !important;
-}
-html[data-theme="dark"] .db .nav__item.is-active .ico {
-  color: #00f7ff !important;
-}
-
-/* Input Focus Ring */
 .db .input:focus, .db .select:focus, .db .area:focus {
   border-color: #00f7ff !important;
   outline: none !important;
 }
-
-/* 4. Typography Adjustments (Display feel) */
-.db .text-title, .db .empty__title {
-  font-size: 24px !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.03em !important;
-}
-.db .text-subtitle {
-  font-size: 18px !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.02em !important;
-}
-
-/* 5. Tags and Pills */
-.db .tag {
-  border-radius: 12px !important;
-  font-weight: 600 !important;
-}
-
-/* 6. List rows (Homework, Calendar lines) */
-.db .row {
-  border-bottom: 2px solid var(--border) !important;
-}
-.db .row:last-child {
-  border-bottom: none !important;
-}
-
-/* Hide the focus ring standard styling since we use borders */
 .db *:focus-visible {
   outline: 2px solid #00f7ff !important;
   outline-offset: 2px !important;
+}
+
+/* 4. Active Sidebar Item (Cyan Accent) */
+html[data-theme="light"] .db .nav__item.is-active {
+  color: #008b8f !important;
+  background-color: #e5feff !important;
+  font-weight: 600 !important;
+}
+html[data-theme="light"] .db .nav__item.is-active .ico {
+  color: #008b8f !important;
+}
+html[data-theme="dark"] .db .nav__item.is-active {
+  color: #00f7ff !important;
+  background-color: #002b2e !important;
+  font-weight: 600 !important;
+}
+html[data-theme="dark"] .db .nav__item.is-active .ico {
+  color: #00f7ff !important;
 }
