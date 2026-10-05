@@ -111,7 +111,40 @@
 
       if (allClear) {
         const tmrwCount = byDay[D.dates.add(today, 1)].length;
-        panelsHtml = D.ui.emptyState('All clear for today', `Tomorrow has ${tmrwCount} ${tmrwCount === 1 ? 'item' : 'items'} due.`, 'sun');
+        let emptyStateMsg = D.ui.emptyState('All clear for today', `Tomorrow has ${tmrwCount} ${tmrwCount === 1 ? 'item' : 'items'} due.`, 'sun');
+        
+        const outstanding = es.filter(e => !e.done && (!e.date || e.date > today));
+        outstanding.sort((a, b) => {
+          const weight = { 'high': 3, 'med': 2, 'low': 1 };
+          const pA = weight[D.model.priority(a.item.priority).id] || 0;
+          const pB = weight[D.model.priority(b.item.priority).id] || 0;
+          if (pA !== pB) return pB - pA;
+          
+          if (!a.date && b.date) return 1;
+          if (a.date && !b.date) return -1;
+          if (!a.date && !b.date) return 0;
+          return a.date < b.date ? -1 : 1;
+        });
+        
+        const topTasks = outstanding.slice(0, 5);
+        if (topTasks.length > 0) {
+          // Remove default 'margin: auto' on empty state via regex replacement below in app.css,
+          // and wrap both in a flex container that centers itself
+          panelsHtml = `
+            <div style="margin: auto; width: 100%; display: flex; flex-direction: column; gap: 16px;">
+              ${emptyStateMsg}
+              <section class="panel panel--today" aria-label="Upcoming Priorities">
+                <h2 class="panel__head">${D.icon('trending-up')}Top priorities coming up</h2>
+                <ul>${topTasks.map(e => renderEntry(e, false)).join('')}</ul>
+              </section>
+            </div>
+          `;
+        } else {
+          panelsHtml = `<div style="margin: auto;">${emptyStateMsg}</div>`;
+        }
+      } else {
+          panelsHtml = emptyStateMsg;
+        }
       } else {
         let oHtml = '';
         if (overdue.length > 0) {
