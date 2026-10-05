@@ -204,16 +204,16 @@
         const act = e.target.getAttribute('data-act');
         if (act === 'drawer-edit-title') {
           currentItem.title = e.target.innerText.replace(/\\n/g, ' ');
-          D.app.render(); // save and update background
+          D.store.saveItems(D.app.state.items); D.app.render(); // save and update background
         } else if (act === 'drawer-edit-notes') {
           currentItem.notes = e.target.innerText;
-          D.app.render();
+          D.store.saveItems(D.app.state.items); D.app.render();
         } else if (act === 'drawer-edit-step') {
           const stepId = e.target.getAttribute('data-id');
           const step = currentItem.checklist.find(s => s.id === stepId);
           if (step) {
             step.text = e.target.innerText;
-            D.app.render();
+            D.store.saveItems(D.app.state.items); D.app.render();
           }
         } else if (act === 'drawer-score-got' || act === 'drawer-score-out') {
           const gotEl = drawerEl.querySelector('[data-act="drawer-score-got"]');
@@ -222,7 +222,7 @@
             const got = parseFloat(gotEl.value);
             const outOf = parseFloat(outEl.value);
             currentItem.score = { got: isNaN(got) ? null : got, outOf: isNaN(outOf) ? null : outOf };
-            D.app.render();
+            D.store.saveItems(D.app.state.items); D.app.render();
           }
         }
       });
@@ -289,6 +289,7 @@
         b.innerText = o.label + (o.date ? ' (' + D.dates.short(o.date) + ')' : '');
         b.onclick = () => {
           step.due = o.date;
+          D.store.saveItems(D.app.state.items);
           D.app.render();
           renderDrawer();
           menu.remove();
@@ -309,6 +310,7 @@
       input.onchange = () => {
         if (input.value) {
           step.due = input.value;
+          D.store.saveItems(D.app.state.items);
           D.app.render();
           renderDrawer();
         }
@@ -341,6 +343,7 @@
         b.innerHTML = D.ui.subjectDot(s.id) + D.ui.esc(s.name);
         b.onclick = () => {
           currentItem.subject = s.id;
+          D.store.saveItems(D.app.state.items);
           D.app.render();
           renderDrawer();
           menu.remove();
@@ -380,6 +383,7 @@
         b.innerText = o.label + (o.date ? ' (' + D.dates.short(o.date) + ')' : '');
         b.onclick = () => {
           currentItem.due_date = o.date;
+          D.store.saveItems(D.app.state.items);
           D.app.render();
           renderDrawer();
           menu.remove();
@@ -400,6 +404,7 @@
       input.onchange = () => {
         if (input.value) {
           currentItem.due_date = input.value;
+          D.store.saveItems(D.app.state.items);
           D.app.render();
           renderDrawer();
         }
@@ -420,38 +425,45 @@
 
     } else if (act === 'drawer-set-type') {
       D.model.setType(currentItem, id, D.dates.today());
-      D.app.render();
-      renderDrawer();
+      D.store.saveItems(D.app.state.items);
+          D.app.render();
+          renderDrawer();
     } else if (act === 'drawer-set-prio') {
       currentItem.priority = id;
-      D.app.render();
-      renderDrawer();
+      D.store.saveItems(D.app.state.items);
+          D.app.render();
+          renderDrawer();
     } else if (act === 'drawer-set-status') {
       D.model.setStatus(currentItem, id, D.dates.today());
-      D.app.render();
-      renderDrawer();
+      D.store.saveItems(D.app.state.items);
+          D.app.render();
+          renderDrawer();
     } else if (act === 'drawer-toggle-step') {
       D.model.toggleStep(currentItem, id, D.dates.today());
-      D.app.render();
-      renderDrawer();
+      D.store.saveItems(D.app.state.items);
+          D.app.render();
+          renderDrawer();
     } else if (act === 'drawer-add-step') {
       currentItem.checklist.push(D.model.blankStep(''));
-      D.app.render();
-      renderDrawer();
+      D.store.saveItems(D.app.state.items);
+          D.app.render();
+          renderDrawer();
       const items = drawerEl.querySelectorAll('.checklist__text');
       if (items.length) items[items.length - 1].focus();
     } else if (act === 'drawer-delete-step') {
       currentItem.checklist = currentItem.checklist.filter(s => s.id !== id);
-      D.app.render();
-      renderDrawer();
+      D.store.saveItems(D.app.state.items);
+          D.app.render();
+          renderDrawer();
     } else if (act === 'drawer-mark-done') {
       D.model.toggleDone(currentItem, D.dates.today());
-      D.app.render();
-      renderDrawer();
+      D.store.saveItems(D.app.state.items);
+          D.app.render();
+          renderDrawer();
     } else if (act === 'drawer-delete') {
       D.app.state.items = D.app.state.items.filter(i => i.id !== currentItem.id);
       D.store.snapshot(D.app.state.items); // Should we take snapshot before delete? Yes, in handleAction undo... Wait, delete implies undoable.
-      D.app.render();
+      D.store.saveItems(D.app.state.items); D.app.render();
       D.drawer.close();
       D.ui.toast('Item deleted', 'undo-action');
     } else if (act === 'drawer-add-github') {
@@ -460,6 +472,7 @@
         const link = D.model.parseLink(url) || { url: D.model.cleanUrl(url), label: 'GitHub repo' };
         if (link && link.url && D.model.isGithub(link.url)) {
           currentItem.links.unshift(link); // Put Github link first
+          D.store.saveItems(D.app.state.items);
           D.app.render();
           renderDrawer();
         } else {
@@ -472,14 +485,16 @@
         const link = D.model.parseLink(url) || { url: D.model.cleanUrl(url), label: url };
         if (link && link.url) {
           currentItem.links.push(link);
+          D.store.saveItems(D.app.state.items);
           D.app.render();
           renderDrawer();
         }
       }
     } else if (act === 'drawer-delete-link') {
       currentItem.links.splice(parseInt(id, 10), 1);
-      D.app.render();
-      renderDrawer();
+      D.store.saveItems(D.app.state.items);
+          D.app.render();
+          renderDrawer();
     }
   });
 
@@ -519,7 +534,7 @@
         const row = document.querySelector(`[data-key="${currentItem.id}"]`);
         if (row) row.focus();
       }
-      D.app.render();
+      D.store.saveItems(D.app.state.items); D.app.render();
     },
     isOpen: false
   };
