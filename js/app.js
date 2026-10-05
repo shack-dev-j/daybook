@@ -86,7 +86,8 @@
           </div>
           <span>Saved on this laptop<br>
             <a href="#" data-act="export">Export JSON</a> &middot;
-            <a href="#" data-act="import">Import</a>
+            <a href="#" data-act="import">Import</a> &middot;
+            <a href="#" data-act="paste-json">Paste JSON</a>
           </span>
         </div>
       </aside>
@@ -194,6 +195,37 @@
       a.download = `daybook-${D.dates.today()}.json`;
       a.click();
       URL.revokeObjectURL(url);
+        } else if (act === 'paste-json') {
+      e.preventDefault();
+      const txt = prompt('Paste the JSON snippet from Claude/Gemini:');
+      if (!txt) return;
+      try {
+        const data = JSON.parse(txt);
+        const arr = Array.isArray(data) ? data : (data.items || []);
+        if (arr.length === 0) {
+          alert('No items found in JSON.');
+          return;
+        }
+        const norm = D.model.normaliseAll(arr);
+        if (confirm(`Found ${norm.length} items. Add them to your existing tasks? (Cancel to REPLACE all your current tasks with these new ones)`)) {
+          // Add to existing
+          D.store.backupItems(state.items);
+          state.items = state.items.concat(norm);
+          D.store.saveItems(state.items);
+          render();
+          D.ui.toast(`Added ${norm.length} items.`);
+        } else {
+          if (confirm('Are you sure you want to completely replace your current tasks?')) {
+            D.store.backupItems(state.items);
+            state.items = norm;
+            D.store.saveItems(state.items);
+            render();
+            D.ui.toast(`Replaced with ${norm.length} items.`);
+          }
+        }
+      } catch (err) {
+        alert('Invalid JSON. Please ensure you copied the raw JSON correctly.');
+      }
     } else if (act === 'import') {
       e.preventDefault();
       const inp = document.createElement('input');

@@ -27,15 +27,10 @@ html, body {
 
 /* --- Animations and Awesome Design --- */
 
-/* Smooth hover transitions for interactive elements */
-.db .btn, .db .row, .db .card, .db .menu__item, .db .tag, .db .seg__opt, .db .input, .db .textarea {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+/* Removed smooth transitions */
 }
 
-/* Cards lift up on hover */
-.db .card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+/* Removed card lift */
 }
 
 /* Rows highlight smoothly */
@@ -44,8 +39,7 @@ html, body {
 }
 
 /* Drawer slide-in animation */
-@keyframes slideInRight {
-  from { transform: translateX(100%); opacity: 0; }
+
   to { transform: translateX(0); opacity: 1; }
 }
 
@@ -71,14 +65,12 @@ html, body {
 .db .drawer__title[contenteditable="true"]:focus {
   background: var(--field);
 
-@keyframes pulse {
-  0% { opacity: 0.5; transform: scale(0.95); }
+
   50% { opacity: 1; transform: scale(1); }
   100% { opacity: 0.5; transform: scale(0.95); }
 }
 
-@keyframes slideInUp {
-  0% { opacity: 0; transform: translateY(20px); }
+
   100% { opacity: 1; transform: translateY(0); }
 }
 
