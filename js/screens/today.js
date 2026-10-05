@@ -128,8 +128,6 @@
         
         const topTasks = outstanding.slice(0, 5);
         if (topTasks.length > 0) {
-          // Remove default 'margin: auto' on empty state via regex replacement below in app.css,
-          // and wrap both in a flex container that centers itself
           panelsHtml = `
             <div style="margin: auto; width: 100%; display: flex; flex-direction: column; gap: 16px;">
               ${emptyStateMsg}
@@ -141,9 +139,6 @@
           `;
         } else {
           panelsHtml = `<div style="margin: auto;">${emptyStateMsg}</div>`;
-        }
-      } else {
-          panelsHtml = emptyStateMsg;
         }
       } else {
         let oHtml = '';
