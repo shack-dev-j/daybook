@@ -82,3 +82,8 @@ html, body {
 .db .side > * {
   flex-shrink: 0;
 }
+
+/* Center empty states in flex columns */
+.today__main > .empty {
+  margin: auto;
+}

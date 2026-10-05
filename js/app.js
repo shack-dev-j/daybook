@@ -17,7 +17,6 @@
     { id: 'projects', name: 'Projects', icon: 'square-kanban' },
     { id: 'calendar', name: 'Calendar', icon: 'calendar-days' },
     { id: 'stats', name: 'Stats', icon: 'chart-column' },
-    { id: 'ai', name: 'AI Assistant', icon: 'sparkles' },
     { id: 'prefs', name: 'Preferences', icon: 'sliders-horizontal' }
   ];
 
