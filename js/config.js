@@ -23,6 +23,15 @@
       { id: 'physics', name: 'Physics', short: 'Physics' },
       { id: 'maths', name: 'Mathematics', short: 'Maths' },
       { id: 'cyber', name: 'Cybersecurity', short: 'Cyber' },
+      { id: 'english', name: 'English', short: 'English' },
+      { id: 'uzbek', name: 'Mother Tongue & Lit', short: 'Uzbek' },
+      { id: 'history', name: 'History', short: 'History' },
+      { id: 'geo', name: 'Geography', short: 'Geography' },
+      { id: 'bio', name: 'Biology', short: 'Biology' },
+      { id: 'chem', name: 'Chemistry', short: 'Chemistry' },
+      { id: 'russian', name: 'Russian Language', short: 'Russian' },
+      { id: 'law', name: 'State and Law', short: 'Law' },
+      { id: 'pe', name: 'Physical Education', short: 'PE' },
       { id: 'other', name: 'Other', short: 'Other' }
     ],
 

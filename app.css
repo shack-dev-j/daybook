@@ -142,3 +142,49 @@ html[data-theme="dark"] .db .nav__item.is-active {
 html[data-theme="dark"] .db .nav__item.is-active .ico {
   color: #00f7ff !important;
 }
+
+/* Additional Subjects CSS */
+.dot--english { background: var(--subject-english); }
+.fill--english { color: var(--on-subject-english, #fff); background: var(--subject-english); border-color: var(--subject-english); }
+.ch-english { accent-color: var(--subject-english); }
+.db .checkbox > .ch-english:checked + .chk__box { background: var(--subject-english); border-color: var(--subject-english); }
+
+.dot--uzbek { background: var(--subject-uzbek); }
+.fill--uzbek { color: var(--on-subject-uzbek, #fff); background: var(--subject-uzbek); border-color: var(--subject-uzbek); }
+.ch-uzbek { accent-color: var(--subject-uzbek); }
+.db .checkbox > .ch-uzbek:checked + .chk__box { background: var(--subject-uzbek); border-color: var(--subject-uzbek); }
+
+.dot--history { background: var(--subject-history); }
+.fill--history { color: var(--on-subject-history, #fff); background: var(--subject-history); border-color: var(--subject-history); }
+.ch-history { accent-color: var(--subject-history); }
+.db .checkbox > .ch-history:checked + .chk__box { background: var(--subject-history); border-color: var(--subject-history); }
+
+.dot--geo { background: var(--subject-geo); }
+.fill--geo { color: var(--on-subject-geo, #fff); background: var(--subject-geo); border-color: var(--subject-geo); }
+.ch-geo { accent-color: var(--subject-geo); }
+.db .checkbox > .ch-geo:checked + .chk__box { background: var(--subject-geo); border-color: var(--subject-geo); }
+
+.dot--bio { background: var(--subject-bio); }
+.fill--bio { color: var(--on-subject-bio, #fff); background: var(--subject-bio); border-color: var(--subject-bio); }
+.ch-bio { accent-color: var(--subject-bio); }
+.db .checkbox > .ch-bio:checked + .chk__box { background: var(--subject-bio); border-color: var(--subject-bio); }
+
+.dot--chem { background: var(--subject-chem); }
+.fill--chem { color: var(--on-subject-chem, #fff); background: var(--subject-chem); border-color: var(--subject-chem); }
+.ch-chem { accent-color: var(--subject-chem); }
+.db .checkbox > .ch-chem:checked + .chk__box { background: var(--subject-chem); border-color: var(--subject-chem); }
+
+.dot--russian { background: var(--subject-russian); }
+.fill--russian { color: var(--on-subject-russian, #fff); background: var(--subject-russian); border-color: var(--subject-russian); }
+.ch-russian { accent-color: var(--subject-russian); }
+.db .checkbox > .ch-russian:checked + .chk__box { background: var(--subject-russian); border-color: var(--subject-russian); }
+
+.dot--law { background: var(--subject-law); }
+.fill--law { color: var(--on-subject-law, #fff); background: var(--subject-law); border-color: var(--subject-law); }
+.ch-law { accent-color: var(--subject-law); }
+.db .checkbox > .ch-law:checked + .chk__box { background: var(--subject-law); border-color: var(--subject-law); }
+
+.dot--pe { background: var(--subject-pe); }
+.fill--pe { color: var(--on-subject-pe, #fff); background: var(--subject-pe); border-color: var(--subject-pe); }
+.ch-pe { accent-color: var(--subject-pe); }
+.db .checkbox > .ch-pe:checked + .chk__box { background: var(--subject-pe); border-color: var(--subject-pe); }

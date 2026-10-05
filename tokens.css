@@ -34,6 +34,15 @@
   --type-assignment: #454c58;
   --type-project: #d3d7dd;
   --on-type-project: #111317;
+  --subject-english: #fbbf24;
+  --subject-uzbek: #f87171;
+  --subject-history: #d97706;
+  --subject-geo: #34d399;
+  --subject-bio: #a3e635;
+  --subject-chem: #38bdf8;
+  --subject-russian: #a78bfa;
+  --subject-law: #94a3b8;
+  --subject-pe: #fb7185;
   --shadow-drawer: none;
   --shadow-pop: 0 10px 15px -3px rgba(0,0,0,0.5);
 }
@@ -71,6 +80,15 @@
   --type-assignment: #cfd1cd;
   --type-project: #32363d;
   --on-type-project: #ffffff;
+  --subject-english: #f59e0b;
+  --subject-uzbek: #ef4444;
+  --subject-history: #b45309;
+  --subject-geo: #10b981;
+  --subject-bio: #84cc16;
+  --subject-chem: #0ea5e9;
+  --subject-russian: #8b5cf6;
+  --subject-law: #64748b;
+  --subject-pe: #f43f5e;
   --shadow-drawer: none;
   --shadow-pop: 0 10px 15px -3px rgba(0,0,0,0.1);
 }
