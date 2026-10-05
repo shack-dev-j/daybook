@@ -105,8 +105,11 @@
           <div class="input search" role="search">
             ${D.icon('search')}<input type="text" placeholder="Search" value="${D.ui.esc(state.searchQuery)}" style="border:none;background:transparent;outline:none;flex:1;min-width:0;color:inherit;"><kbd class="kbd">/</kbd>
           </div>
+          <button class="btn" data-act="paste-json" style="margin-right: 8px;">
+            ${D.icon('sparkles', 'ico--sm')}Paste AI Tasks
+          </button>
           <button class="btn btn--primary" data-act="new-item">
-            ${D.icon('plus')}New item<kbd class="kbd">N</kbd>
+            ${D.icon('plus')}New item<kbd class="kbd" style="background:transparent;border-color:inherit;color:inherit;">N</kbd>
           </button>
         </div>
       </header>
