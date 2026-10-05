@@ -262,7 +262,7 @@
       if (D.drawer) D.drawer.open(null);
     } else if (act === 'toggle-done') {
       e.stopPropagation();
-      const row = e.target.closest('[data-key]');
+      const row = (e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('[data-key]');
       if (!row) return;
       const key = row.getAttribute('data-key');
       const item = state.items.find(i => i.id === key);
@@ -280,13 +280,13 @@
         D.ui.toast('Action undone');
       }
     } else if (act === 'open-item') {
-      const key = id || (e.target.closest('[data-key]') ? e.target.closest('[data-key]').getAttribute('data-key') : null);
+      const key = id || ((e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('[data-key]') ? (e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('[data-key]').getAttribute('data-key') : null);
       if (key && D.drawer) D.drawer.open(key);
     }
   }
 
   document.addEventListener('click', e => {
-    const t = e.target.closest('[data-act]');
+    const t = (e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('[data-act]');
     if (t) {
       handleAction(t.getAttribute('data-act'), t.getAttribute('data-id'), e);
     }

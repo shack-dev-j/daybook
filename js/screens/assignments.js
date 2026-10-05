@@ -93,7 +93,7 @@
 
   document.addEventListener('click', e => {
     if (D.app.state.activeScreen !== 'assignments') return;
-    const t = e.target.closest('[data-act]');
+    const t = (e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('[data-act]');
     if (!t) {
       document.querySelectorAll('.assignments-menu').forEach(m => m.style.display = 'none');
       return;

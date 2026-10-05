@@ -6,6 +6,8 @@
 
   let localState = {
     filter: 'open', // open, done, all
+    group: 'subject',
+    sort: 'due',
     collapsedGroups: {} // subjectId -> boolean
   };
 
@@ -231,7 +233,7 @@
   document.addEventListener('click', e => {
     if (D.app.state.activeScreen !== 'homework') return;
 
-    const t = e.target.closest('[data-act]');
+    const t = (e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('[data-act]');
     if (!t) {
       closeMenus();
       return;
@@ -260,10 +262,12 @@
       const isVis = menu.style.display === 'flex';
       closeMenus();
       if (!isVis) menu.style.display = 'flex';
+    } else if (act === 'hw-set-group') {
+      localState.group = id; D.app.render();
+    } else if (act === 'hw-set-sort') {
+      localState.sort = id; D.app.render();
     } else if (act === 'hw-set-subj' || act === 'hw-set-due' || act === 'hw-set-prio') {
       e.stopPropagation();
-      if (act === 'hw-set-group') { localState.group = id; D.app.render(); return; }
-      if (act === 'hw-set-sort') { localState.sort = id; D.app.render(); return; }
       if (act === 'hw-set-subj') D.app.state.prefs.hwSubject = id;
       if (act === 'hw-set-due') D.app.state.prefs.hwDue = id;
       if (act === 'hw-set-prio') D.app.state.prefs.hwPrio = id;

@@ -255,7 +255,7 @@
 
   // Delegated clicks
   document.addEventListener('click', e => {
-    const t = e.target.closest('[data-act]');
+    const t = (e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('[data-act]');
     if (!t || !drawerEl) return;
     const act = t.getAttribute('data-act');
     const id = t.getAttribute('data-id');

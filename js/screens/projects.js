@@ -5,7 +5,7 @@
   let draggedId = null;
 
   function handleDragStart(e) {
-    const card = e.target.closest('article.card');
+    const card = (e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('article.card');
     if (!card) return;
     draggedId = card.getAttribute('data-key');
     e.dataTransfer.effectAllowed = 'move';
@@ -13,14 +13,14 @@
   }
 
   function handleDragOver(e) {
-    if (e.target.closest('section.col')) {
+    if ((e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('section.col')) {
       e.preventDefault();
       e.dataTransfer.dropEffect = 'move';
     }
   }
 
   function handleDrop(e) {
-    const col = e.target.closest('section.col');
+    const col = (e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('section.col');
     if (!col || !draggedId) return;
     e.preventDefault();
     
@@ -37,7 +37,7 @@
   function handleKeyDown(e) {
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
     
-    const card = e.target.closest('article.card');
+    const card = (e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('article.card');
     if (!card || e.ctrlKey || e.altKey || e.metaKey) return;
     
     const itemId = card.getAttribute('data-key');
@@ -60,7 +60,7 @@
   }
 
   function handleNewProject(e) {
-    const t = e.target.closest('[data-act="new-project"]');
+    const t = (e.target.nodeType === 3 ? e.target.parentNode : e.target).closest('[data-act="new-project"]');
     if (t) {
       e.preventDefault();
       e.stopPropagation();
