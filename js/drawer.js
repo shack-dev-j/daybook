@@ -266,7 +266,7 @@
     
     } else if (act === 'drawer-step-date') {
       const menu = document.createElement('div');
-      menu.style.cssText = 'position:absolute;background:var(--surface-raised);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-pop);padding:8px;display:flex;flex-direction:column;gap:4px;z-index:100;width:200px;';
+      menu.style.cssText = 'position:absolute;background:var(--surface-raised);border:2px solid var(--border);border-radius:var(--radius-md);box-shadow:none;padding:8px;display:flex;flex-direction:column;gap:4px;z-index:9999;width:200px;';
       const rect = t.getBoundingClientRect();
       menu.style.top = (rect.bottom + window.scrollY + 4) + 'px';
       menu.style.left = (rect.left + window.scrollX) + 'px';
@@ -329,7 +329,7 @@
 
     } else if (act === 'drawer-pick-subject') {
       const menu = document.createElement('div');
-      menu.style.cssText = 'position:absolute;background:var(--surface-raised);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-pop);padding:4px;display:flex;flex-direction:column;gap:4px;z-index:100;';
+      menu.style.cssText = 'position:absolute;background:var(--surface-raised);border:2px solid var(--border);border-radius:var(--radius-md);box-shadow:none;padding:4px;display:flex;flex-direction:column;gap:4px;z-index:9999;';
       const rect = t.getBoundingClientRect();
       menu.style.top = (rect.bottom + window.scrollY + 4) + 'px';
       menu.style.left = (rect.left + window.scrollX) + 'px';
@@ -360,7 +360,7 @@
 
     } else if (act === 'drawer-pick-date') {
       const menu = document.createElement('div');
-      menu.style.cssText = 'position:absolute;background:var(--surface-raised);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-pop);padding:8px;display:flex;flex-direction:column;gap:4px;z-index:100;width:200px;';
+      menu.style.cssText = 'position:absolute;background:var(--surface-raised);border:2px solid var(--border);border-radius:var(--radius-md);box-shadow:none;padding:8px;display:flex;flex-direction:column;gap:4px;z-index:9999;width:200px;';
       const rect = t.getBoundingClientRect();
       menu.style.top = (rect.bottom + window.scrollY + 4) + 'px';
       menu.style.left = (rect.left + window.scrollX) + 'px';

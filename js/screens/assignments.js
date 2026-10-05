@@ -89,13 +89,63 @@
 </li>`;
   }
 
+  const localState = { show: 'all', subject: '', view: 'cards' };
+
+  document.addEventListener('click', e => {
+    if (D.app.state.activeScreen !== 'assignments') return;
+    const t = e.target.closest('[data-act]');
+    if (!t) {
+      document.querySelectorAll('.assignments-menu').forEach(m => m.style.display = 'none');
+      return;
+    }
+    const act = t.getAttribute('data-act');
+    const val = t.getAttribute('data-val');
+
+    if (act === 'set-filter') {
+      localState.show = val;
+      D.app.render();
+    } else if (act === 'set-view') {
+      localState.view = val;
+      D.app.render();
+    } else if (act === 'open-subject-menu') {
+      e.stopPropagation();
+      let menu = document.querySelector('#assignments-subject-menu');
+      if (!menu) {
+        menu = document.createElement('div');
+        menu.id = 'assignments-subject-menu';
+        menu.className = 'assignments-menu';
+        menu.style.cssText = 'position:absolute;background:var(--surface-raised);border:2px solid var(--border);border-radius:var(--radius-md);box-shadow:none;z-index:9999;min-width:140px;padding:4px;display:none;flex-direction:column;gap:2px;';
+        document.body.appendChild(menu);
+      }
+      
+      const isVis = menu.style.display === 'flex';
+      document.querySelectorAll('.assignments-menu').forEach(m => m.style.display = 'none');
+      if (!isVis) {
+        menu.style.display = 'flex';
+        const rect = t.getBoundingClientRect();
+        menu.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+        menu.style.left = (rect.left + window.scrollX) + 'px';
+        
+        let html = `<button class="btn btn--ghost" style="justify-content:flex-start" data-act="set-subject" data-val="">All subjects</button>`;
+        D.config.SUBJECTS.forEach(s => {
+          html += `<button class="btn btn--ghost" style="justify-content:flex-start" data-act="set-subject" data-val="${s.id}">${D.ui.subjectDot(s.id)}${D.ui.esc(s.name)}</button>`;
+        });
+        menu.innerHTML = html;
+      }
+    } else if (act === 'set-subject') {
+      localState.subject = val;
+      document.querySelectorAll('.assignments-menu').forEach(m => m.style.display = 'none');
+      D.app.render();
+    }
+  });
+
   D.screens = D.screens || {};
   D.screens.assignments = {
     render: function (container, items, state) {
-      state = state || {};
-      const show = state.show || 'all';
-      const subjectFilter = state.subject || '';
-      const view = state.view || 'cards';
+      state = localState;
+      const show = state.show;
+      const subjectFilter = state.subject;
+      const view = state.view;
 
       const today = D.dates.today();
       let assigns = items.filter(i => i.type === 'assignment');

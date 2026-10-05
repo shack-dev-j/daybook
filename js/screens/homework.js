@@ -13,7 +13,7 @@
   function renderMenu(items, actPrefix, currentValue) {
     // items: [{ id, label, iconHtml }]
     return `
-      <div class="menu" style="position:absolute;top:100%;left:0;background:var(--surface-raised);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-pop);z-index:100;min-width:140px;padding:4px;display:none;flex-direction:column;gap:2px;">
+      <div class="menu" style="position:absolute;top:100%;left:0;background:var(--surface-raised);border:2px solid var(--border);border-radius:var(--radius-md);box-shadow:none;z-index:9999;min-width:140px;padding:4px;display:none;flex-direction:column;gap:2px;">
         ${items.map(i => `
           <button type="button" class="menu__item ${i.id === currentValue ? 'is-active' : ''}" style="display:flex;align-items:center;gap:8px;padding:6px 8px;border:none;background:transparent;width:100%;text-align:left;cursor:pointer;border-radius:var(--radius-sm);color:var(--ink);" data-act="${actPrefix}" data-id="${i.id}">
             ${i.iconHtml || ''}${D.ui.esc(i.label)}
@@ -103,8 +103,14 @@
             <button class="seg__opt" data-act="hw-filter" data-id="done" aria-pressed="${localState.filter === 'done'}">Done <span class="num">${hwItems.filter(i => D.model.isDone(i)).length}</span></button>
             <button class="seg__opt" data-act="hw-filter" data-id="all" aria-pressed="${localState.filter === 'all'}">All <span class="num">${hwItems.length}</span></button>
           </div>
-          <div class="select" style="width:auto">Group: Subject${D.icon('chevron-down', 'ico--sm')}</div>
-          <div class="select" style="width:auto">Sort: Due date${D.icon('chevron-down', 'ico--sm')}</div>
+          <div style="position:relative;display:inline-block;">
+            <button class="select" style="width:auto" data-act="hw-toggle-menu" data-id="group-menu">Group: ${localState.group === 'subject' ? 'Subject' : 'Status'}${D.icon('chevron-down', 'ico--sm')}</button>
+            ${renderMenu([{id:'subject', label:'Subject'}, {id:'status', label:'Status'}], 'hw-set-group', localState.group)}
+          </div>
+          <div style="position:relative;display:inline-block;">
+            <button class="select" style="width:auto" data-act="hw-toggle-menu" data-id="sort-menu">Sort: ${localState.sort === 'due' ? 'Due date' : 'Priority'}${D.icon('chevron-down', 'ico--sm')}</button>
+            ${renderMenu([{id:'due', label:'Due date'}, {id:'priority', label:'Priority'}], 'hw-set-sort', localState.sort)}
+          </div>
           <div class="toolbar__end hints">
             <span><kbd class="kbd">↑</kbd><kbd class="kbd">↓</kbd>Move</span>
             <span><kbd class="kbd">Space</kbd>Done</span>
@@ -122,21 +128,44 @@
       html += `<div class="table">`;
       html += `<div class="cols"><span style="width:16px"></span><span class="grow">Homework</span><span class="c-due">Due</span><span class="c-status">Status</span><span class="c-prio">Priority</span><span class="c-go"></span></div>`;
 
-      // Group by subject
-      const grouped = {};
-      sorted.forEach(i => {
-        if (!grouped[i.subject]) grouped[i.subject] = [];
-        grouped[i.subject].push(i);
+      // Apply custom sorting
+      sorted.sort((a, b) => {
+        if (localState.sort === 'priority') {
+          const w = {'high':3, 'med':2, 'low':1};
+          const pa = w[D.model.priority(a.priority).id]||0;
+          const pb = w[D.model.priority(b.priority).id]||0;
+          if (pa !== pb) return pb - pa;
+        }
+        if (!a.due_date && b.due_date) return 1;
+        if (a.due_date && !b.due_date) return -1;
+        if (a.due_date !== b.due_date) return a.due_date < b.due_date ? -1 : 1;
+        return 0;
       });
 
-      Object.keys(grouped).forEach(subjId => {
-        const s = D.model.subject(subjId);
-        const gItems = grouped[subjId];
-        const isCol = localState.collapsedGroups[subjId];
+      // Group by dynamic key
+      const grouped = {};
+      sorted.forEach(i => {
+        const key = localState.group === 'status' ? i.status : i.subject;
+        if (!grouped[key]) grouped[key] = [];
+        grouped[key].push(i);
+      });
+
+      Object.keys(grouped).forEach(keyId => {
+        let titleHtml = '';
+        if (localState.group === 'status') {
+          const st = D.model.status('homework', keyId);
+          titleHtml = `${D.icon(st.icon, 'ico--sm')}${D.ui.esc(st.name)}`;
+        } else {
+          const s = D.model.subject(keyId);
+          titleHtml = `${D.ui.subjectDot(s.id)}${D.ui.esc(s.name)}`;
+        }
+        
+        const gItems = grouped[keyId];
+        const isCol = localState.collapsedGroups[keyId];
         html += `
-          <div class="group__head" data-act="hw-toggle-group" data-id="${s.id}" style="cursor:pointer">
+          <div class="group__head" data-act="hw-toggle-group" data-id="${keyId}" style="cursor:pointer">
             ${D.icon(isCol ? 'chevron-right' : 'chevron-down', 'ico--sm')}
-            ${D.ui.subjectDot(s.id)}${D.ui.esc(s.name)}
+            ${titleHtml}
             <span class="muted num" style="font-weight:400">${gItems.length}</span>
           </div>
         `;
@@ -233,6 +262,8 @@
       if (!isVis) menu.style.display = 'flex';
     } else if (act === 'hw-set-subj' || act === 'hw-set-due' || act === 'hw-set-prio') {
       e.stopPropagation();
+      if (act === 'hw-set-group') { localState.group = id; D.app.render(); return; }
+      if (act === 'hw-set-sort') { localState.sort = id; D.app.render(); return; }
       if (act === 'hw-set-subj') D.app.state.prefs.hwSubject = id;
       if (act === 'hw-set-due') D.app.state.prefs.hwDue = id;
       if (act === 'hw-set-prio') D.app.state.prefs.hwPrio = id;
